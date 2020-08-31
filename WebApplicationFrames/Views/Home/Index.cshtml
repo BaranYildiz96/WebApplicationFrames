@@ -15,125 +15,215 @@
 </head>
 <body>
 
+    <div>
+      <input type="button" class="open-button"  value="Ekle" id="Ekle" onclick="document.getElementById('AddModal').style.display='block'"/>
+    </div>
+
     <div class="container-fluid">
 
         <div class="row">
-            @for (var i = 0; i < @Model.Count(); i+=3)
+            @for (var i = 0; i < @Model.Count(); i += 1)
             {
                 <div class="col-sm-4" id="mopics" style="background-color:white;">
-                    <img src="~/Content/@Model[i].Images" style="width:100% ; max-height:200px;"  id="@Model[i].Px">
+                    <img src="~/Content/@Model[i].Images" style="width:100% ; max-height:200px;" id="@Model[i].Px">
                 </div>
-                <div class="col-sm-4" id="mopics" style="background-color:white;">
-                    <img src="~/Content/@Model[i+1].Images" style="width:100% ; max-height:200px;"  id="@Model[i+1].Px">
-                </div>
-                <div class="col-sm-4" id="mopics" style="background-color:white;">
-                    <img src="~/Content/@Model[i+2].Images" style="width:100% ; max-height:200px;"  id="@Model[i+2].Px">
-                </div>
-            }    
-        </div>
-
-    @foreach (var item in Model)
-    {
-        <div id="@item.MyModal" class="modal">
-            <!-- Modal content -->
-            <div class="modal-content">
-                <span id="@item.Sp" class="close1">&times;</span>
-                <p><img src="~/Content/@item.Images" style="width:100%"</p>
-                <h2>@item.Title</h2>
-                <p>@item.Text</p>
-            </div>
-        </div>
-    }
-
-    <style>
-
-        #mopics {
-            height: 200px;
-            padding: 2px;
-        }
-
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
-            padding-top: 50px; /* Location of the box */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-        }
-
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 50%;
-        }
-
-        .close1 {
-            color: #aaaaaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-            .close1:hover,
-            .close1:focus {
-                color: red;
-                text-decoration: none;
-                cursor: pointer;
             }
-    </style>
-    <script>
+        </div>
+
+        <div id="AddModal" class="modal">
+
+            <form class="modal-content animate" action="/action_page.php" method="post">
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('AddModal').style.display='none'" class="close" title="Close Modal">&times;</span>
+         
+                </div>
+
+                <div class="container">
+
+                    <label for="img">Resim Seç:</label>
+                    <input type="file" id="img" name="img" accept="image/*">              
+                    <p></p>
+                    <label for="titleadd"><b>Title</b></label>
+                    <input type="text" placeholder="Enter Title" name="titleadd" id="titleadd" required>
+                    <p></p>
+                    <label for="textadd"><b>Text</b></label>
+                    <input type="text" placeholder="Enter Text" name="textadd" id="textadd" required>
+                    <p></p>
+                    <button type="submit">Submit</button>
+                    <p></p>
+
+
+                </div>
+
+                <div class="container" >
+                    <button type="button" onclick="document.getElementById('AddModal').style.display='none'" class="cancelbtn">Cancel</button>                 
+                </div>
+            </form>
+        </div>
+
+        @foreach (var item in Model)
+        {
+            <div id="@item.MyModal" class="modal">
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <span id="@item.Sp" class="close1">&times;</span>
+                    <p><img src="~/Content/@item.Images" style="width:100%"</p>
+                    <h2>@item.Title</h2>
+                    <p>@item.Text</p>
+                </div>
+            </div>
+        }
+
+
+        <script>
+
+            var modal = document.getElementById('AddModal');
+            // When the user clicks anywhere outside of the modal, close it
+           window.onclick = function (event) {
+              if (event.target == modal) {
+                    modal.style.display = "none";
+              }
+           }
 
         var modalsdiv = [];
-        var modalIdList = ["MyModal1", "MyModal2", "MyModal3", "MyModal4", "MyModal5", "MyModal6", "MyModal7", "MyModal8", "MyModal9"]
-        modalIdList.forEach(function (index) {
-            var modal = document.getElementById(index);
-            modalsdiv.push(modal);
-        });
+        for (var i = 1; i <= @Model.Count(); i++) {
+            var modalIdList = ["MyModal" + i]
+            //   var modalIdList = ["MyModal1", "MyModal2", "MyModal3", "MyModal4", "MyModal5", "MyModal6", "MyModal7", "MyModal8", "MyModal9"]
 
-        var buttondiv = [];
-        var buttonList = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-        buttonList.forEach(function (index) {
-            var button = document.getElementById(index);
-            buttondiv.push(button);
-        });
-
-        var spandiv = [];
-        var spanList = ["Sp1", "Sp2", "Sp3", "Sp4", "Sp5", "Sp6", "Sp7", "Sp8", "Sp9"]
-        spanList.forEach(function (index) {
-            var spanx = document.getElementById(index);
-            spandiv.push(spanx);
-        });
-        // When the user clicks the button, open the modal
-
-        var numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-        numbers.forEach(myFunction);
-        function myFunction(item) {
-            buttondiv[item].onclick = function () {
-                modalsdiv[item].style.display = "block";
-            }
-            spandiv[item].onclick = function () {
-                modalsdiv[item].style.display = "none";
-            }
+            modalIdList.forEach(function (index) {
+                var modal = document.getElementById(index);
+                modalsdiv.push(modal);
+            });
         }
 
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function (event) {
+
+        var buttondiv = [];
+        for (var i = 1; i <= @Model.Count(); i++) {
+            var buttonList = [i]
+
+            //    var buttonList = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+            buttonList.forEach(function (index) {
+                var button = document.getElementById(index);
+                buttondiv.push(button);
+            });
+        }
+
+
+        var spandiv = [];
+        for (var i = 1; i <= @Model.Count(); i++) {
+            var spanList = ["S" + i]
+
+            //  var spanList = ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9"]
+            spanList.forEach(function (index) {
+                var spanx = document.getElementById(index);
+                spandiv.push(spanx);
+            });
+
+        }
+        // When the user clicks the button, open the modal
+
+        for (var i = 0; i < @Model.Count(); i++) {
+            var numbers = [i]
+
+            // var numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8];
             numbers.forEach(myFunction);
             function myFunction(item) {
-                if (event.target == modalsdiv[item]) {
+                buttondiv[item].onclick = function () {
+                    modalsdiv[item].style.display = "block";
+                }
+                spandiv[item].onclick = function () {
                     modalsdiv[item].style.display = "none";
                 }
             }
         }
+            // When the user clicks anywhere outside of the modal, close it
 
-    </script>
+        window.onclick = function (event) {
+        for (var i = 0; i < @Model.Count(); i++) {
+            var numbers = [i]
+
+                numbers.forEach(myFunction);
+                function myFunction(item) {
+                    if (event.target == modalsdiv[item]) {
+                        modalsdiv[item].style.display = "none";
+                    }
+                }
+            }
+        }
+        </script>
+        <style>
+
+            
+
+            /* Full-width input fields */
+            input[type=text] {
+                width: 100%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                box-sizing: border-box;
+            }
+
+            .imgcontainer {
+                text-align: center;
+                margin: 24px 0 12px 0;
+                position: relative;
+            }
+            img.avatar {
+                width: 40%;
+                border-radius: 50%;
+            }
+
+
+
+
+
+
+
+
+            #mopics {
+                height: 200px;
+                padding: 2px;
+                padding-bottom: 2px;
+            }
+
+            .modal {
+                display: none; /* Hidden by default */
+                position: fixed; /* Stay in place */
+                z-index: 1; /* Sit on top */
+                padding-top: 50px; /* Location of the box */
+                left: 0;
+                top: 0;
+                width: 100%; /* Full width */
+                height: 100%; /* Full height */
+                overflow: auto; /* Enable scroll if needed */
+                background-color: rgb(0,0,0); /* Fallback color */
+                background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            }
+
+
+            .modal-content {
+                background-color: #fefefe;
+                margin: auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 50%;
+            }
+
+            .close1 {
+                color: #aaaaaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+                .close1:hover,
+                .close1:focus {
+                    color: red;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+        </style>
 </body>
 </html>

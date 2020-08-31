@@ -34,29 +34,23 @@ namespace WebApplicationFrames.Controllers
             }
 
         }
-     
-        //List<Modals> modalList = new List<Modals>();
-        //for (int i = 1; i <10; i++)
-        //{
-        //    var modal = new Modals
-        //    {
-        //        Title = "Title " + i,
-        //        Text = " Some text in the  " + i +". Modal",                
-        //        Sp = "sp" + i,
-        //        MyModal = "myModal" + i,
-        //        Images = "Hizliresim" + i + ".jpg",
-        //        Btn = "btn" + i,
-        //        Px = "px" +i
-        //    };
+        [HttpPost]
+        public ActionResult Index(string img, string titleadd,string textadd)
+        {
 
-        //    modalList.Add(modal);
-        //}
+            Console.WriteLine("Hello");
 
 
 
 
 
 
+
+
+
+            return null;
+        }
+ 
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

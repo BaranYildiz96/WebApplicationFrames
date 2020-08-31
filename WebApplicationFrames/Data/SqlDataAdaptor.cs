@@ -12,10 +12,7 @@ namespace WebApplicationFrames.Data
         Model1 db;
         public SqlDataAdaptor()
         {
-            db = new Model1();
-            
-
-
+            db = new Model1();      
         }
 
         public List<Modal> GetAll()

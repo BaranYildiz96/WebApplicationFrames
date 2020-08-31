@@ -27,13 +27,9 @@ namespace WebApplicationFrames
         [Key]
         [Column(Order = 4)]
         public string Sp { get; set; }
-
+    
         [Key]
         [Column(Order = 5)]
-        public string btn { get; set; }
-
-        [Key]
-        [Column(Order = 6)]
         public string Px { get; set; }
     }
 }
